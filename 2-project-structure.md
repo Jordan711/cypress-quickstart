@@ -1,5 +1,6 @@
 # Cypress Project Structure
 
+## Folder Structure
 After generating the sample cypress project, let's look inside the `cypress` folder. Inside you would find 4 subfolders:
 - downloads
     - This folder stores any files downloaded during your tests. For example, if your test clicks on a download link, the file will be saved here.
@@ -9,6 +10,8 @@ After generating the sample cypress project, let's look inside the `cypress` fol
     - Fixtures contain static data that you can pass into your tests. For example, this can include mock data for different environments, users, or other test cases.
 - support
     - The support folder contains helper files and functions to support your test scripts. This may include things like page objects, which encapsulate interactions with specific page elements, or custom commands that extend Cypress’s built-in functionality.
+
+## Test Configuration
 
 In addition, you might notice a new file called `cypress.config.js`
 - This file holds global settings and environment variables for your tests
