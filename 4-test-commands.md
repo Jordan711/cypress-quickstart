@@ -1,71 +1,123 @@
 # Cypress Commands
 
 ## Basic Selectors
-In order to interact with the elements on the webpage, we first need to grab the element. How do we tell Cypress how to locate and interact with a specific element? 
+To interact with elements on a webpage, Cypress needs a way to locate them. This is where **selectors** come in.
 
-In Cypress, one of those selectors is `.get()`.
-To use this command, you'll need to pass in a CSS selector as an argument. Please refer to [this quick guide](https://www.w3schools.com/cssref/css_selectors.php) for a brief summary on how to select elements eithin a page.
+Cypress uses commands like `.get()` and `.contains()` to select elements based on their CSS selectors or text content.
 
-In summary,
+### `.get()`
+
+The `.get()` command selects one or more DOM elements using a **CSS selector**.
 
 ```
- --> element
-# --> id
-. --> class
-[] --> attribute
+cy.get("[selector]");
+```
+
+To use this command, you'll need to pass in a CSS selector as an argument. Please refer to [this quick guide](https://www.w3schools.com/cssref/css_selectors.php) for a quick overview of how selectors work.
+
+```
+Common CSS Selectors:
+
+div → selects all <div> elements.
+#id → selects an element by its id.
+.class → selects elements by class.
+[attr=value] → selects elements by attribute.
 ```
 
 Let's take [my website](https://jordanfeng.me/) for example:
-If I wanted Cypress to select the first button (About Me), then I would do something like this
+If you want to select the "About Me" button by its ID:
 
 ```
 cy.get("#about-toggle");
 ```
-In the example above, I decided to grab the button using its id, because ids should be unique to each specific element. If I did something like
+This targets the element with `id="about-toggle"`. Using IDs is ideal because they are typically unique for each element.
+
+In contrast, something like:
 
 ```
 cy.get("div");
 ```
-That would just return a list of all the `div` elements, which would require additional effort to sort through in order to find the exact element I want.
+would return all `<div>` elements, requiring additional filtering to find the right one.
 
 ---
+### `.contains()`
 
-In addition to `.get`, we also have the `.contains` command, which grabs the element based on their text content. 
+The .contains() command selects elements based on their text content. It’s helpful when you want to interact with something you can visually identify by its label or text.
 
 For example:
 ```
 cy.contains("Work Experience");
 ```
-This would grab the first element on the page that has the exact words and capitalization, "Work Experience".
+This selects the first element on the page that contains the exact text "Work Experience" (case-sensitive).
 
-Note: `contains` only returns the first DOM element that contains the specified text. So you need to make sure that the text you want to search, only appears for the element you want.
+Note: `.contains()` only returns the first match. Be careful if the text appears in multiple places.
 
-E.g. This would select the element with the first occurence of 'the', which can be any element
 ```
-cy.contains("the");
+// This could match any element with the word "the"
+cy.contains("the"); 
 ```
 
-Now there can be occurrences where multiple elements on the page have the same text, but you still want to grab a specific element. Fortunately, with `contains`, you can combine both a selector and the text you want to look for.
+### Combining `.contains()` with a Selector
+
+To target a specific element type that contains specific text, you can combine both
 ```
 cy.contains('button', 'Submit');
 ```
-This grabs the first occurence of a button element, that also has the text "Submit".
+This selects the first `<button>` on the page that contains the text "Submit".
 
 ## Actions
 After selecting the specific element we want, we can perform various actions on that element, including clicking, typing etc.
 
-`.click()`
+| Command | Description |
+| --- | --- |
+| `.click()` | Clicks the selected element |
+| `.type()` | Types text into an input or textarea |
+| `.clear()` | Clears the input field |
+| `.dblclick()` | Double-clicks the selected element |
 
-`.type()`
+**Note:** Actions can only be used on **elements that support them**.
 
-`.clear()`
+`.click()` should be used on clickable elements like `<button>`, `<a>`, `<label>`, etc
 
-`.dblclick()`
+`.type()` and `.clear()` only work on inputs, textareas, or elements with editable content.
+
+If you try to perform an action on an unsupported or invisible element, Cypress will throw an error.
+
+#### Examples:
+
+For example:
+```
+cy.get("#email").type("hello@example.com");
+cy.get("button").click();
+cy.get("input").clear();
+cy.contains("Reset").dblclick();
+```
 
 ## Assertions
 
-In addition to actions, we can also verify information in the selected elements. For this, we use assertions
+Assertions verify that the application behaves as expected. In Cypress, you typically use `.should()` to make assertions about selected elements.
 
 `.should()`
 
-exist, be.visible, have.text, contain, have.value, have.attr, have.class, be.enabled, be.disabled, be.checked
+|Assertion|Meaning|
+|---|---|
+|`exist`|Element exists in the DOM|
+|`be.visible`|Element is visible|
+|`have.text`|Element has exact text content|
+|`contain`|Element contains specific text|
+|`have.value`|Input has a specific value|
+|`have.attr`|Element has a given attribute and value|
+|`have.class`|Element has a specific class|
+|`be.enabled`|Element is enabled (not disabled)|
+|`be.disabled`|Element is disabled|
+|`be.checked`|Checkbox or radio button is checked|
+
+So, to verify an input field has specific text:
+```
+cy.get("input").should("have.value", "hello@example.com");
+```
+
+And to verify that a button is visible and enabled:
+```
+cy.get("button").should("be.visible").and("be.enabled");
+```
