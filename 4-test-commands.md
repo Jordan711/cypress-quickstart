@@ -5,7 +5,7 @@ To interact with elements on a webpage, Cypress needs a way to locate them. This
 
 Cypress uses commands like `.get()` and `.contains()` to select elements based on their CSS selectors or text content.
 
-### `.get()`
+### `cy.get(selector)`
 
 The `.get()` command selects one or more DOM elements using a **CSS selector**.
 
@@ -40,9 +40,9 @@ cy.get("div");
 would return all `<div>` elements, requiring additional filtering to find the right one.
 
 ---
-### `.contains()`
+### `cy.contains(text)`
 
-The .contains() command selects elements based on their text content. It’s helpful when you want to interact with something you can visually identify by its label or text.
+The `.contains()` command selects elements based on their text content. It’s helpful when you want to interact with something you can visually identify by its label or text.
 
 For example:
 ```

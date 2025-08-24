@@ -34,15 +34,16 @@ We'll first select the parent `.two-form` and then grab the button from there us
 
 Let's take a look at the following commands that may be useful in this case.
 
-### `find()`
-- Searches all descendant elements that match the selector.
+### `find(selector)`
+- Searches all descendant elements of the current subject that match the provided selector
 - Useful if the target element might be nested several levels deep.
 
-### `children()`
+### `children(selector)`
 - Selects only direct children of the parent element.
+- You can pass a selector to only return direct children of that type
 - More precise and less likely to be affected by DOM changes.
 
-### `eq`
+### `eq(index)`
 - Grabs an element at a specific zero-based index (first element is at index 0) from a list.
 
 For example:
@@ -51,7 +52,7 @@ cy.get("button").eq(2);
 ```
 This returns the 3rd button in the list.
 
-Note: If the index is out of bounds (e.g., .eq(5) on a 3-item list), Cypress will throw an error.
+Note: If the index is out of bounds (e.g., `.eq(5)` on a 3-item list), Cypress will throw an error.
 
 ---
 
@@ -92,7 +93,7 @@ Now, suppose you want to select the `<section>` that contains a specific button:
 Using the `parent` method, we can get the correct `section` element by doing the following
 
 ```
-cy.get(".super-button").parent()
+cy.get(".super-button").parent();
 ```
 
 This returns the `<section>` that directly contains the `.super-button`.

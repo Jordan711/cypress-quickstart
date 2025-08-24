@@ -2,13 +2,13 @@
 
 ## Folder Structure
 After generating the sample cypress project, let's look inside the `cypress` folder. Inside you would find 4 subfolders:
-- downloads
+- **downloads**
     - This folder stores any files downloaded during your tests. For example, if your test clicks on a download link, the file will be saved here.
-- e2e
+- **e2e**
     - This is where all your automated test scripts will live. These scripts contain the actual tests you want Cypress to run.
-- fixtures
+- **fixtures**
     - Fixtures contain static data that you can pass into your tests. For example, this can include mock data for different environments, users, or other test cases.
-- support
+- **support**
     - The support folder contains helper files and functions to support your test scripts. This may include things like page objects, which encapsulate interactions with specific page elements, or custom commands that extend Cypress’s built-in functionality.
 
 ## Test Configuration
