@@ -1,8 +1,12 @@
 # Traversing Elements
 
-Sometimes, certain elements on the page would not have an easily identifiable selector.
+Cypress offers several powerful commands for navigating the DOM. Let's explore how to move through child and parent elements using some common traversal methods.
 
-In this example, let's say I want to select the 3rd button of `two-form`. 
+## Traversing Child Elements
+
+Sometimes, elements on the page don't have a unique or easily identifiable selector — like an id or custom class.
+
+For example:
 ```
 <section>
     <button></button>
@@ -21,25 +25,51 @@ In this example, let's say I want to select the 3rd button of `two-form`.
     </form>
 </section>
 ```
+Suppose we want to select the 3rd button inside `.two-form`, but none of the buttons have unique attributes.
 
-However, none of the buttons have a unique id I can select.
+**Strategy:**
+We'll first select the parent `.two-form` and then grab the button from there using traversal methods.
 
-We will need to select a parent first and then grab its children elements from there.
+---
+
+Let's take a look at the following commands that may be useful in this case.
 
 ### `find()`
-Searches all descendants (not just direct children).
-
-Can go as deep as needed to find matching elements inside the DOM tree.
+- Searches all descendant elements that match the selector.
+- Useful if the target element might be nested several levels deep.
 
 ### `children()`
-Returns only direct child elements of the selected element.
-
-Does not search deeply into nested levels
+- Selects only direct children of the parent element.
+- More precise and less likely to be affected by DOM changes.
 
 ### `eq`
+- Grabs an element at a specific zero-based index (first element is at index 0) from a list.
 
+For example:
+```
+cy.get("button").eq(2);
+```
+This returns the 3rd button in the list.
 
-What if in this example, I want to select the `section` element that has the `super-button` button?
+Note: If the index is out of bounds (e.g., .eq(5) on a 3-item list), Cypress will throw an error.
+
+---
+
+So in this case, if we want to select the 3rd button of `two-form`, we can do something like
+
+```
+cy.get(".two-form").children("button").eq(2);
+```
+
+Why use `.children` instead of `.find`?
+
+Using `.children("button")` ensures you're selecting only direct children. This makes your test more stable, especially if someone later adds nested elements like a `<div>` or wrapper inside `.two-form`.
+
+---
+
+## Traversing Parent Elements
+
+Now, suppose you want to select the `<section>` that contains a specific button:
 ```
 <section>
 </section>
@@ -55,3 +85,14 @@ What if in this example, I want to select the `section` element that has the `su
 ```
 
 ### `parent()`
+- Selects the direct parent of an element.
+- Use it when you start from a known child and need to move upward in the DOM.
+
+
+Using the `parent` method, we can get the correct `section` element by doing the following
+
+```
+cy.get(".super-button").parent()
+```
+
+This returns the `<section>` that directly contains the `.super-button`.
