@@ -11,5 +11,6 @@ A beginner-friendly guide to Cypress for writing end-to-end tests.
 - [Traversing Elements](5-traversing-elements.md)
 - [Navigation](6-navigation.md)
 - [Waits](7-waits.md)
+- [Good Selector Practices](8-good-selector-practices.md)
 
 ---

@@ -76,7 +76,7 @@ Try to avoid using `.eq()`, because that relies on exact positioning (index) of 
 ---
 
 ## General Selector Preference Ranking
-1. `data-*cy*` Attributes
+1. `data-*cy*` Attributes (e.g., `data-cy`)
 2. ID Attributes
 3. Meaningful Class Names
 4. `name`, `placeholder`, `aria-label`
